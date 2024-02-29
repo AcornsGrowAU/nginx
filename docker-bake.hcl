@@ -9,7 +9,7 @@ group "default" {
 }
 
 target "nginx" {
-  pull   = true
+  pull = true
   tags = [
     "acornsaustralia/nginx:latest",
     GITHUB_RUN_NUMBER != null ? "acornsaustralia/nginx:${GITHUB_RUN_NUMBER}" : ""

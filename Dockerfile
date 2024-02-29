@@ -4,9 +4,9 @@ FROM rockylinux:${ROCKY_VERSION}-minimal
 SHELL ["/bin/bash", "-l", "-c"]
 
 COPY <<EOF /etc/yum.repos.d/nodesource-nodejs.repo
-[nginx-mainline]
-name=nginx mainline repo
-baseurl=https://nginx.org/packages/mainline/centos/\$releasever/\$basearch/
+[nginx-stable]
+name=nginx stable repo
+baseurl=https://nginx.org/packages/centos/\$releasever/\$basearch/
 gpgcheck=1
 enabled=1
 gpgkey=https://nginx.org/keys/nginx_signing.key
