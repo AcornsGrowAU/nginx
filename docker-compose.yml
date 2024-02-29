@@ -1,6 +1,0 @@
-version: '3.7'
-services:
-  nginx-unprivileged:
-    build:
-      context: .
-    image: nginx-unprivileged:latest
