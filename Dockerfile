@@ -3,7 +3,7 @@ FROM rockylinux:${ROCKY_VERSION}-minimal
 
 SHELL ["/bin/bash", "-l", "-c"]
 
-COPY <<EOF /etc/yum.repos.d/nodesource-nodejs.repo
+COPY <<EOF /etc/yum.repos.d/nginx.repo
 [nginx-stable]
 name=nginx stable repo
 baseurl=https://nginx.org/packages/centos/\$releasever/\$basearch/
