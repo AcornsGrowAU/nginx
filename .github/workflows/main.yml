@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  main:
+  ci:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -26,9 +26,6 @@ jobs:
           dockerfile: Dockerfile
           config: hadolint-ci.yaml
 
-      - name: Build images
-        run: docker buildx bake
-
       - name: Build image for scan
         run: docker buildx build --platform linux/amd64 --load -t acornsaustralia/nginx:scan --build-arg ROCKY_VERSION=9 .
 
@@ -42,10 +39,22 @@ jobs:
           vuln-type: os,library
           severity: CRITICAL,HIGH
 
+  push:
+    needs: ci
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4.0.0
+
       - name: Log into registry
-        if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login https://index.docker.io/v1/ -u ${{ secrets.DOCKER_USER }} --password-stdin
 
       - name: Push images
-        if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
         run: docker buildx bake --push
